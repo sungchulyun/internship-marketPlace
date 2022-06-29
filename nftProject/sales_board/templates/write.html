@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>판매 게시판에 오신 것을 환영합니다.</title>
+ 
+</head>
+<body>
+    <div id="board_write">
+        <h4>판매 글 작성 공간입니다.</h4>
+            <div id="write_area">
+                <form method="post">
+                    {% csrf_token %}
+                   
+                        <input type="text" id="board_title" name="board_title">
+                        <input type="text" id="board_content" name="board_content">
+                        <button type="submit">판매 글 게시</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
+ 
