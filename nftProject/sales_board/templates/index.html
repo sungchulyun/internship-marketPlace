@@ -1,5 +1,41 @@
 <html>
     <body>
-        {{board_list}}
+        <div class="content">
+            <div class="header">
+                <h2>{{ title }}</h2>
+            </div>
+            <div style="text-align:right">
+                <a href="{% url 'write' %}">글쓰기</a>
+            </div>
+    
+            <table class="board">
+                <thead>
+                    <tr class="header">
+                        <th style="width:10%;">순번</th>
+                        <th style="width:60%">제목</th>
+                        <th style="width:30%">작성일자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if board_list %}
+                    {% for data in board_list %}
+                    <tr class="{% if forloop.counter|divisibleby:2 %}even_bgcolor{% endif %}">
+                        <td style="text-align:center;">{{ forloop.counter }}</td>
+                        <td style="text-align: center;">
+                            
+                                {{ data.title }}
+                            </a>
+                        </td>
+                        <td>{{ data.create_date|date:'Y-m-d' }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>작성된 게시글이 없습니다.</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
     </body>
-</html>
+    </html>
