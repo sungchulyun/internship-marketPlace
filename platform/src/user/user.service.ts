@@ -9,9 +9,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class UserService{
     constructor(
-        @InjectRepository(User)
+        @InjectRepository(UserRepository)
         private userRepository: UserRepository,
     ) {}
+    
     findAll(): Promise<User[]>{
         return this.userRepository.find();
     }
