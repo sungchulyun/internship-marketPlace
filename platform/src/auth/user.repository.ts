@@ -11,7 +11,8 @@ export class UserRepository extends Repository<User> {
         const{email, password} = authcredentialsDto;
 
         const salt = await bcrypt.genSalt();
-        const user = this.create({email, password});
+        const hashedPassword = await bcrypt.hash(password, salt );
+        const user = this.create({email, password: hashedPassword});
 
         try{
              await this.save(user);
@@ -23,5 +24,5 @@ export class UserRepository extends Repository<User> {
         else throw new InternalServerErrorException();
        }
     }
-    
+
 } 

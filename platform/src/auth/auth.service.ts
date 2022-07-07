@@ -6,6 +6,7 @@ import { UserService } from './../user/user.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -16,17 +17,27 @@ export class AuthService {
         private jwtService: JwtService,
     ) {}
 
+    //회원가입
     async signUp(authcredentialsDto : AuthCredentialsDto): Promise<void>{
         return this.userRepository.createUser(authcredentialsDto);
     }
-    async validateUser(email:string, pass:string): Promise<any>{
-        const user = await this.userService.findOne(email);
-        if(user && user.password === pass){
-            const{ password, ...result} = user;
-            return result;
+
+    //로그인
+    async signIn(authcredentialsDto: AuthCredentialsDto): Promise<void>{
+        const { email, password} = authcredentialsDto;
+        const user = await this.userRepository.findOne({email});
+        
+    }
+        /*
+        const hash = await (await this.userRepository.findOne({email})).password;
+        if(bcrypt.compare(password, hash)){
+            return user;
         }
+        /*
         return null;
     }
+    
+    /*
 
     async login(user: User){
         const payload = { email: user.email}
@@ -34,5 +45,5 @@ export class AuthService {
             access_token: this.jwtService.sign(payload),
         };
     }
-      
+      */
 }
