@@ -3,7 +3,7 @@ import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { UserRepository } from './user.repository';
 import { UserService } from './../user/user.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -23,19 +23,19 @@ export class AuthService {
     }
 
     //로그인
-    async signIn(authcredentialsDto: AuthCredentialsDto): Promise<void>{
+    async signIn(authcredentialsDto: AuthCredentialsDto): Promise<string | undefined>{
         const { email, password} = authcredentialsDto;
-        const user = await this.userRepository.findOne({email});
-        
-    }
-        /*
         const hash = await (await this.userRepository.findOne({email})).password;
-        if(bcrypt.compare(password, hash)){
-            return user;
-        }
-        /*
-        return null;
+        const validatePassword = await(bcrypt.compare(password, hash));
+        if(!validatePassword){
+            throw new UnauthorizedException();
+        }  
+        return "Login Success";
     }
+      
+
+        /*
+        
     
     /*
 
