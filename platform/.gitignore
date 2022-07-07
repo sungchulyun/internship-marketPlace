@@ -4,7 +4,8 @@
 
 # Logs
 logs
-*.log
+\platform\src\auth/constants.ts
+
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*

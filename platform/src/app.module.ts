@@ -1,4 +1,3 @@
-import { User } from './user/user.entity';
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';

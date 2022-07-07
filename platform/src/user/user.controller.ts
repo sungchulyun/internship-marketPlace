@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { UserService } from './user.service';
 import { Controller, Get, Param, Post, Body, Render } from '@nestjs/common';
-import { User } from './user.entity';
+import { User } from '../auth/user.entity';
+import { isEmail } from 'class-validator';
 
 
 @Controller('user')
@@ -13,15 +14,14 @@ export class UserController {
         return this.userService.findAll();
     }
     */
-    @Get()
-    findOne(@Param(':id')id : string):string{
-        return 'this returns user${id}';
+    @Get(':email')
+    async findOne(@Param('email')email : string): Promise<User>{
+        const finduser =  await this.userService.findOne(email);
+        return Object.assign({
+            data: finduser,
+        })
     }
-    @Get('/join')
-    @Render('join.hbs')
-    getJoin() {
-        return {message:'Index Page' };
-    }
+   
     /*@Post('/joining')
     @Render('')
     create(@Body() user: User){
@@ -29,12 +29,12 @@ export class UserController {
     }
     */
 
-    @Get('/signin')
+    @Get('/join')
     @Render('signin.hbs')
     getUser() {
         return {message:'Index Page' };
     }
-    @Post('/signining')
+    @Post('/join')
     @Render('')
     check(@Body() user: User){
         return this.userService.create(user);

@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { Board } from "src/boards/boards.entity";
-import { User } from './../user/user.entity';
+import { User } from '../auth/user.entity';
 export const typeORMConfig : TypeOrmModuleOptions = {
         type: 'mysql',
         host: 'nftweb-mysql.ce6bsnpqk01h.ap-northeast-2.rds.amazonaws.com',
