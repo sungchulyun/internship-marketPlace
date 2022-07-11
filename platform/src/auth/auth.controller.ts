@@ -1,3 +1,4 @@
+import { LocalAuthGurad } from './local-auth.guard';
 /* eslint-disable prettier/prettier */
 import { AuthGuard } from '@nestjs/passport';
 import { User } from './user.entity';
@@ -15,10 +16,13 @@ export class AuthController {
     signUp(@Body() authcredentialsDto: AuthCredentialsDto): Promise<void>{
         return this.authSerivce.signUp(authcredentialsDto);
     }
+
     @Post('login')
     async login(@Body() authcredentialsDto: AuthCredentialsDto, @Res() res: Response): Promise<any>{
-        const jwt = await this.authSerivce.signIn(authcredentialsDto);      //아이디, 비밀번호 검증
+        const jwt = await this.authSerivce.validateUser(authcredentialsDto);      //아이디, 비밀번호 검증
+        console.log(jwt);
         res.setHeader('Authorization', 'Bearer ' + jwt.accessToken);    //헤더에 담아서  토큰 전달
+        console.log(res.json(jwt));
         return res.json(jwt);
     }
     @Get('/authenticate')

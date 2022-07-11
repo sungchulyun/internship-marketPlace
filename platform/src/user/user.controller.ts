@@ -24,13 +24,15 @@ export class UserController {
             data: finduser,
         })
     }
+    /*
     @UseGuards(AuthGuard('local'))
 	@Post()
 	async login(@Session() session, @Request() req, @Res({ passthrough: true}) response) {
 		const access_token = await (await this.authService.login(req.user)).access_token;
 		await response.cookie('Authorization', access_token);
 		return req.user;
-   
+   */
+    }
     /*@Post('/joining')
     @Render('')
     create(@Body() user: User){

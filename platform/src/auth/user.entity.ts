@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'typeorm';
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
@@ -14,4 +15,9 @@ export class User extends BaseEntity{
 
     @Column({length:100})
     password: string;
+
+    @Column({ nullable: true })
+  @Exclude()
+  currentHashedRefreshToken?: string;
+    
 }

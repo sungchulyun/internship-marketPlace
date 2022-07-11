@@ -1,5 +1,5 @@
-import { Payload } from './security/payload.interface';
 /* eslint-disable prettier/prettier */
+import { Payload } from './security/payload.interface';
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { UserRepository } from './user.repository';
@@ -24,16 +24,17 @@ export class AuthService {
     }
 
     //비밀번호 해쉬 검사
-    async signIn(authcredentialsDto: AuthCredentialsDto): Promise<{accessToken: string} | undefined>{
-        const { email, password} = authcredentialsDto;
+    async validateUser(authcredentialsDto: AuthCredentialsDto): Promise<{accessToken: string} | undefined>{
+        const email = authcredentialsDto.email;
+        const password = authcredentialsDto.password;
         const hash = await (await this.userRepository.findOne({email})).password;
         const validatePassword = await(bcrypt.compare(password, hash));
         if(!validatePassword){
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('login failed');
         }  
         const payload: Payload = { email : email };
 
-        return {
+        return {    //토큰 발급
             accessToken: this.jwtService.sign(payload),
         };
     }
@@ -46,9 +47,11 @@ export class AuthService {
     //토큰 발급
     async login(user: User){
         const payload = { email: user.email}
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        console.log(payload)
+        const token = this.jwtService.sign(payload);
+        return token;
+        
+        
     }
     
 }

@@ -1,24 +1,38 @@
 /* eslint-disable prettier/prettier */
+import { ConfigService } from '@nestjs/config';
+
+import { UserRepository } from './user.repository';
 import { User } from './user.entity';
-import { jwtConstants } from './constants';
 import { ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
-import { Injectable } from "@nestjs/common";
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
-    constructor(){
+    constructor(
+        @InjectRepository(UserRepository)
+        private userRepository: UserRepository,
+        private configService: ConfigService
+    ){
         super({
-            jwtFromRequest : ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration : false,
-            secretOrKey : process.env.JWT_KEY,
-        });
-    }
+            jwtFromRequest: ExtractJwt.fromExtractors([
+              (request) => {
+                return request?.cookies?.Authentication;
+              },
+            ]),
+            secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
+          });
+        }
     
-    async validate(payload: User){
-        return { email : payload.email};
+    async validate(payload){
+        const {email} = payload;
+        const user:User = await this.userRepository.findOne({ email});
+
+        if(!user) {
+            throw new UnauthorizedException();
+        }
+        return user;
     }
 }
