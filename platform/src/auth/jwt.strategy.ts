@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { ConfigService } from '@nestjs/config';
-
 import { UserRepository } from './user.repository';
 import { User } from './user.entity';
 import { ExtractJwt } from 'passport-jwt';
@@ -22,7 +21,8 @@ export class JwtStrategy extends PassportStrategy(Strategy){
                 return request?.cookies?.Authentication;
               },
             ]),
-            secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
+            secretOrKey: configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+            
           });
         }
     

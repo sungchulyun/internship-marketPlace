@@ -11,6 +11,7 @@ import * as Joi from '@hapi/joi';
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
+        isGlobal: true,
         JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
         JWT_ACCESS_TOKEN_EXPIRTATION_TIME: Joi.number().required(),
         JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),

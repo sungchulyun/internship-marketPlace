@@ -24,16 +24,18 @@ export class UserController {
             data: finduser,
         })
     }
+
     /*
     @UseGuards(AuthGuard('local'))
 	@Post()
-	async login(@Session() session, @Request() req, @Res({ passthrough: true}) response) {
+	async login(@Session() session, @Request() req, @Res({ passthrough: true}) response): Promise<string>{
 		const access_token = await (await this.authService.login(req.user)).access_token;
 		await response.cookie('Authorization', access_token);
 		return req.user;
-   */
+  
     }
-    /*@Post('/joining')
+      */
+    @Post('/joining')
     @Render('')
     create(@Body() user: User){
         return this.userService.create(user);
@@ -44,7 +46,5 @@ export class UserController {
     @Render('signin.hbs')
     getUser() {
         return {message:'Index Page' };
-    }*/
-}
-
+    }
 }
