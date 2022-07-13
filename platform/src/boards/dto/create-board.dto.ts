@@ -7,4 +7,8 @@ export class CreateBoardDto{
 
     @IsNotEmpty()
     content:string;
+
+    prize: number;
+
+    image: string;
 }

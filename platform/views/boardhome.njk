@@ -19,15 +19,16 @@ table {
 	<table>
 		<tr>
 			<th>제목</th>
-			<th>가격</th>
 			<th>내용</th>
-			<th>사진</th>
+			<th>가격</th>
+			
 		</tr>  
         {% for board in boards %}
 		<tr>
-			<td>{{board.title}}</td>
-			<td>{{board.content}}<a href=></a></td>
+			<td a href="/boards/detail/{{board.id}}">{{board.title}}<a href="/boards/detail/{{board.id}}"></td>
+			<td>{{board.content}}</a></td>
 			<td>{{board.prize}}</td>
+			
 		</tr>
 		 {% endfor %}
 	</table>

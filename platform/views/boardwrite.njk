@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
-<title>게시판</title>
- 
+<title>판매 게시판</title>
 </head>
 <body>
     <div id="board_write">
         <h1>판매 글을 작성 페이지입니다.</h1>
             <div id="write_area">
-                <form action="/boards/writePro" method="post">
+                <form action="/boards/writePro" method="post" enctype="multipart/form-data">
                     <div id="in_title">
                         <textarea name="title" id="title" rows="1" cols="55" placeholder="제목" maxlength="100" required></textarea>
                     </div>
@@ -17,8 +16,15 @@
                     <div id="in_content">
                         <textarea name="content" id="content" placeholder="내용" required></textarea>
                     </div>
+
+                     <div id="in_content">
+                        <textarea name="prize" id="content" placeholder="가격" required></textarea>
+                    </div>
  
-                      <input type="file" name="SelectFile" />
+                     <div id="in_content">
+                         <input type="file" name="image" placeholder="사진을 올려주세요." />
+                    </div>
+                     
  
  
                     <div class="bt_se">

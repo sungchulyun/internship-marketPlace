@@ -11,9 +11,10 @@ import { diskStorage } from 'multer';
 
 @Controller('boards')
 export class BoardsController {
-
     constructor(private boardService: BoardsService){}
-                                                        //게시판 홈 페이지, 게시글 목록
+    
+    
+    //게시판 홈 페이지, 게시글 목록
     @Get('/')
     //@Render('boardhome.njk')
     async getAllBoard(@Res() res:Response){
@@ -21,29 +22,24 @@ export class BoardsController {
         res.render('boardhome',  {boards:boards});
     }
                                                             //게시판 검색
-                                                            /*
-    @Get('/:id')
+                                                            
+    @Get('detail/:id')
     getBoardById(@Param ('id') id:number): Promise<Board>{
         return this.boardService.getBoardById(id);
     }
-                                                            */
+                                                            
 
-                                                            //게시판 글 작성 랜더링
+    //게시판 글 작성 랜더링
     @Get('/write')
     //@Render('boardwrite.njk')
     writeBoard(@Res() res:Response){
         res.render('boardwrite');
     }
     
-                                                            //게시판 글 작성 POST
+    //게시판 글 작성 POST
     @Post('/writePro')
-    @UsePipes(ValidationPipe)
-    createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board>{
-        return this.boardService.createBoard(createBoardDto);
-    }
-
-    @Post()                             //한개의 사진 post
-  @UseInterceptors(
+    @UsePipes(ValidationPipe) 
+    @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
         destination: './files',
@@ -51,15 +47,34 @@ export class BoardsController {
       }),
       fileFilter: imageFileFilter,
     }),
-  )
-  async uploadedFile(@UploadedFile() file) {
+  ) //한개의 사진 post
+  createBoard(@Body() createBoardDto: CreateBoardDto, @UploadedFile() file): Promise<Board>{
+    const response = {
+        originalname: file.originalname,
+        filename: file.filename,
+        path: file.path,
+      };
+    createBoardDto.image= response.path;
+    return this.boardService.createBoard(createBoardDto);
+}
+async uploadedFile(@UploadedFile() file) {
+    console.log(file);
     const response = {
       originalname: file.originalname,
       filename: file.filename,
     };
     return response;
   }
-
+  
+  
+ 
+/*
+  @Get(':imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './files' });
+  }
+}
+   
   @Post('multiple')                 //배열로 여러 장의 사진 post
   @UseInterceptors(
     FilesInterceptor('image', 20, {
@@ -81,9 +96,5 @@ export class BoardsController {
     });
     return response;
   }
-
-  @Get(':imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './files' });
-  }
+  */
 }

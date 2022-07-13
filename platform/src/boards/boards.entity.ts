@@ -15,4 +15,7 @@ export class Board extends BaseEntity{
     @Column()
     prize: number;
 
+    @Column()
+    image : string;
+
 }
