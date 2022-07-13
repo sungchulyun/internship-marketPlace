@@ -1,10 +1,13 @@
 /* eslint-disable prettier/prettier */
+import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Body, Controller, Get, Param, Post, Render, Req, Res, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { render } from 'nunjucks';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('boards')
 export class BoardsController {
@@ -38,5 +41,49 @@ export class BoardsController {
     createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Board>{
         return this.boardService.createBoard(createBoardDto);
     }
-    
-    }
+
+    @Post()                             //한개의 사진 post
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadedFile(@UploadedFile() file) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return response;
+  }
+
+  @Post('multiple')                 //배열로 여러 장의 사진 post
+  @UseInterceptors(
+    FilesInterceptor('image', 20, {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadMultipleFiles(@UploadedFiles() files) {
+    const response = [];
+    files.forEach(file => {
+      const fileReponse = {
+        originalname: file.originalname,
+        filename: file.filename,
+      };
+      response.push(fileReponse);
+    });
+    return response;
+  }
+
+  @Get(':imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './files' });
+  }
+}

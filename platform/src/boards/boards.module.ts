@@ -1,3 +1,4 @@
+import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsService } from './boards.service';
 import { Module } from '@nestjs/common';
@@ -8,6 +9,11 @@ import { BoardRepository } from './board.repository';
   // eslint-disable-next-line prettier/prettier
   imports: [
     TypeOrmModule.forFeature([BoardRepository]),
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        dest: './files',
+      }),
+    }),
   ],
   controllers: [BoardsController],
   providers: [BoardsService],

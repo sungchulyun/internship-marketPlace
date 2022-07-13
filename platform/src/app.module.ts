@@ -7,6 +7,7 @@ import { typeORMConfig } from './configs/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import { MulterModule } from '@nestjs/platform-express';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +21,7 @@ import * as Joi from '@hapi/joi';
     }),
     TypeOrmModule.forRoot(typeORMConfig),
     UserModule, BoardsModule, AuthModule, ConfigModule.forRoot({ isGlobal: true}),
+
   ],
   controllers: [],
   providers: [],
