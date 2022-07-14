@@ -1,12 +1,13 @@
+import { UpdateBoardDto } from './dto/update-board.dto';
 /* eslint-disable prettier/prettier */
 import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { render } from 'nunjucks';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 
 @Controller('boards')
@@ -59,43 +60,19 @@ export class BoardsController {
       console.log(response.path);
     createBoardDto.image= 'http://localhost:8000/'+ response.filename;
     return this.boardService.createBoard(createBoardDto);
-}
-async uploadedFile(@UploadedFile() file) {
-    console.log(file);
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    return response;
-  }
-  
+    }
+ 
+    //게시글 수정
+    @Patch('/update/:id')
+    async update(@Param('id') id: number, @Body() board: UpdateBoardDto) {
+      return this.boardService.UpdateBoard(id, board);
+    }
 
-  @Get('/image/:imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './files' });
-  }
-
- /*  
-  @Post('multiple')                 //배열로 여러 장의 사진 post
-  @UseInterceptors(
-    FilesInterceptor('image', 20, {
-      storage: diskStorage({
-        destination: './files',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
-  async uploadMultipleFiles(@UploadedFiles() files) {
-    const response = [];
-    files.forEach(file => {
-      const fileReponse = {
-        originalname: file.originalname,
-        filename: file.filename,
-      };
-      response.push(fileReponse);
-    });
-    return response;
-  }
-  */
+    //게시글 삭제
+    @Delete('/delete/:id')
+    remove(@Param('id') id: number) {
+      return this.boardService.DeleteBoard(id);
+    }
+ 
+ 
 }

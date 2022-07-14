@@ -15,7 +15,7 @@ async function bootstrap() {
     
     app.useStaticAssets(path.join(__dirname, '..', 'files')),{
     prefix: 'media'}
-    //http://localhost:8000/media/aaa.png
+    //http://localhost:8000/media/aaa.png -> http://localhost:8000/aaa.png 형태로 저장됨, prefix 적용이 안되는 이슈 ?
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
