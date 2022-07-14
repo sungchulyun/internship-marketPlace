@@ -28,6 +28,7 @@
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/serve-static": "^3.0.0",
     "@nestjs/typeorm": "^8.0.3",
     "@types/hapi__joi": "^17.1.8",
     "@types/nunjucks": "^3.2.1",

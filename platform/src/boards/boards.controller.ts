@@ -22,14 +22,16 @@ export class BoardsController {
         res.render('boardhome',  {boards:boards});
     }
                                                             //게시판 검색
-                                                            
+                                                           
+    //게시판 상세페이지
     @Get('detail/:id')
-    getBoardById(@Param ('id') id:number): Promise<Board>{
-        return this.boardService.getBoardById(id);
+    async getBoardById(@Param ('id') id:number, @Res() res:Response){
+        const board = await this.boardService.getBoardById(id);
+        res.render('boardDetail', {board: board});
     }
                                                             
 
-    //게시판 글 작성 랜더링
+    //게시판 글 작성 페이지 렌더링
     @Get('/write')
     //@Render('boardwrite.njk')
     writeBoard(@Res() res:Response){
@@ -54,7 +56,8 @@ export class BoardsController {
         filename: file.filename,
         path: file.path,
       };
-    createBoardDto.image= response.path;
+      console.log(response.path);
+    createBoardDto.image= 'http://localhost:8000/'+ response.filename;
     return this.boardService.createBoard(createBoardDto);
 }
 async uploadedFile(@UploadedFile() file) {
@@ -66,15 +69,13 @@ async uploadedFile(@UploadedFile() file) {
     return response;
   }
   
-  
- 
-/*
-  @Get(':imgpath')
+
+  @Get('/image/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     return res.sendFile(image, { root: './files' });
   }
-}
-   
+
+ /*  
   @Post('multiple')                 //배열로 여러 장의 사진 post
   @UseInterceptors(
     FilesInterceptor('image', 20, {

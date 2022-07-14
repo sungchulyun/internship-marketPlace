@@ -25,14 +25,14 @@ table {
 		</tr>  
         {% for board in boards %}
 		<tr>
-			<td a href="/boards/detail/{{board.id}}">{{board.title}}<a href="/boards/detail/{{board.id}}"></td>
-			<td>{{board.content}}</a></td>
+			<td> <a href="/boards/detail/{{board.id}}">{{board.title}}</a></td>
+			<td>{{board.content}}</td>
 			<td>{{board.prize}}</td>
 			
 		</tr>
 		 {% endfor %}
 	</table>
 	<br>
-	<button onclick="location.href='write.do'">신규 등록</button>
+	<button onclick="location.href='/boards/write'">글 작성하기</button>
 </body>
 </html>

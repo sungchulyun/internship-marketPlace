@@ -1,16 +1,22 @@
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 import { AppModule } from './app.module';
 import *as nunjucks from 'nunjucks';
+import * as path from 'path';
+import { join } from 'path';
 
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter()
-    );
+    );  
+    
+    app.useStaticAssets(path.join(__dirname, '..', 'files')),{
+    prefix: 'media'}
+    //http://localhost:8000/media/aaa.png
+
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   nunjucks.configure("views", {
@@ -21,6 +27,8 @@ async function bootstrap() {
     
   });
   app.set('view engine', 'njk');
+
+  
   await app.listen(8000);
   
 }
