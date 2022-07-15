@@ -13,8 +13,7 @@ async function bootstrap() {
     new ExpressAdapter()
     );  
     
-    app.useStaticAssets(path.join(__dirname, '..', 'files')),{
-    prefix: 'media'}
+    app.useStaticAssets(path.join(__dirname, '..', 'files')),
     //http://localhost:8000/media/aaa.png -> http://localhost:8000/aaa.png 형태로 저장됨, prefix 적용이 안되는 이슈 ?
 
   app.useStaticAssets(join(__dirname, '..', 'public'));

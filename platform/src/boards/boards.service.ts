@@ -14,8 +14,11 @@ export class BoardsService {
     ){}
     //게시글 작성
     createBoard(createBoardDto: CreateBoardDto): Promise<Board>{
-        
+        if(!createBoardDto){
+            throw new NotFoundException("You have a null value on each attributes");
+        }
         return this.boardRepository.save(createBoardDto);
+
     }
 
     //단일 게시글 가져오기

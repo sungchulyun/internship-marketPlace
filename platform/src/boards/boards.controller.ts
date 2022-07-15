@@ -4,7 +4,7 @@ import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { render } from 'nunjucks';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -29,6 +29,7 @@ export class BoardsController {
     async getBoardById(@Param ('id') id:number, @Res() res:Response){
         const board = await this.boardService.getBoardById(id);
         res.render('boardDetail', {board: board});
+
     }
                                                             
 
@@ -36,11 +37,12 @@ export class BoardsController {
     @Get('/write')
     //@Render('boardwrite.njk')
     writeBoard(@Res() res:Response){
-        res.render('boardwrite');
+        res.render('boardWrite');
     }
     
     //게시판 글 작성 POST
     @Post('/writePro')
+    @Redirect('http://localhost:8000/boards', 302)
     @UsePipes(ValidationPipe) 
     @UseInterceptors(
     FileInterceptor('image', {
@@ -51,19 +53,25 @@ export class BoardsController {
       fileFilter: imageFileFilter,
     }),
   ) //한개의 사진 post
-  createBoard(@Body() createBoardDto: CreateBoardDto, @UploadedFile() file): Promise<Board>{
+    createBoard(@Body() createBoardDto: CreateBoardDto, @UploadedFile() file): Promise<Board>{
     const response = {
         originalname: file.originalname,
         filename: file.filename,
         path: file.path,
-      };
-      console.log(response.path);
-    createBoardDto.image= 'http://localhost:8000/'+ response.filename;
-    return this.boardService.createBoard(createBoardDto);
+      };                  //const file = file.filename으로 받아서 넘기면 오류뜸, 무슨 이슈인지 모르겠음
+      createBoardDto.image= 'http://localhost:8000/'+ response.filename;
+      return this.boardService.createBoard(createBoardDto);
     }
  
+    //글 수정 페이지 랜더링
+    @Get('update/:id')
+    async updateBoard(@Param ('id') id:number, @Res() res:Response){
+      const board = await this.boardService.getBoardById(id);
+      res.render('boardUpdate', {board: board})
+    }
+
     //게시글 수정
-    @Patch('/update/:id')
+    @Patch('/updatePro/:id')
     async update(@Param('id') id: number, @Body() board: UpdateBoardDto) {
       return this.boardService.UpdateBoard(id, board);
     }
