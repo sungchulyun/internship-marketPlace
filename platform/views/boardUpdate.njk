@@ -7,27 +7,25 @@
     <div id="board_write">
         <h1>판매 글 수정 페이지입니다.</h1>
             <div id="write_area">
-                <form action="/boards/updatePro/{{board.id}}" method="post" enctype="multipart/form-data">
+                <form action="/boards/{{board.id}}?_method=patch" method="post" enctype="multipart/form-data">
                             
-                    <div id="in_title">
-                        <textarea name="id" id="id" rows="1" cols="55" placeholder="{{board.id}}" maxlength="100" required></textarea>
-                    </div>
+                  
                    
                     <div id="in_title">
-                        <textarea name="title" id="title" rows="1" cols="55" placeholder="{{board.title}}" maxlength="100" required></textarea>
+                         <input type="text" name="title" id="title" value="{{board.title}}" />
                     </div>
  
                     <div class="wi_line"></div>
                     <div id="in_content">
-                        <textarea name="content" id="content" placeholder="{{board.content}}" required></textarea>
+                         <input type="text" name="content" id="content" value="{{board.content}}" />
                     </div>
 
                      <div id="in_content">
-                        <textarea name="prize" id="prize" placeholder="{{board.prize}}" required></textarea>
+                         <input type="text" name="prize" id="prize" value="{{board.prize}}" />
                     </div>
  
                      <div id="in_content">
-                         <input type="file" name="image" placeholder="{{board.image}}" />
+                           <input type="file" name="image" id="image" value="{{board.image}}" />
                     </div>
                      
  

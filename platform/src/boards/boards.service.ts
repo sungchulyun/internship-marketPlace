@@ -37,7 +37,7 @@ export class BoardsService {
     
     //게시글 수정
     async UpdateBoard(id: number, updateBoardDto:UpdateBoardDto): Promise<Board>{
-        const board = this.boardRepository.findOne({
+        const board = await this.boardRepository.findOne({
             where: {
                 id,
             },
@@ -45,7 +45,8 @@ export class BoardsService {
         if(!board){
             throw new NotFoundException("There is no Information aboout that ID");
         }
-        await this.boardRepository.update(id, updateBoardDto);
+        console.log(updateBoardDto);
+        await this.boardRepository.update(id, updateBoardDto);          //오류 발생 범인
         const updateBoard = await this.boardRepository.findOne({
             where: {id,},
         });

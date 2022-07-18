@@ -71,9 +71,10 @@ export class BoardsController {
     }
 
     //게시글 수정
-    @Patch('/updatePro/:id')
-    async update(@Param('id') id: number, @Body() board: UpdateBoardDto) {
-      return this.boardService.UpdateBoard(id, board);
+    @Patch('/:id')
+    async update(@Param('id') id: number, @Body() body) {
+      console.log(JSON.stringify(body.title));
+      //return this.boardService.UpdateBoard(id, updateBoardDto);
     }
 
     //게시글 삭제
