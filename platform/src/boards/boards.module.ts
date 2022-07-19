@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BoardsService } from './boards.service';
@@ -6,7 +7,7 @@ import { BoardsController } from './boards.controller';
 import { BoardRepository } from './board.repository';
 
 @Module({
-  // eslint-disable-next-line prettier/prettier
+
   imports: [
     TypeOrmModule.forFeature([BoardRepository]),
     MulterModule.registerAsync({

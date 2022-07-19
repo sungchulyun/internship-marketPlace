@@ -4,11 +4,12 @@ import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { render } from 'nunjucks';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { SearchBoardsDto } from './dto/SearchBoardsDto';
 
 @Controller('boards')
 export class BoardsController {
@@ -16,11 +17,14 @@ export class BoardsController {
     
     
     //게시판 홈 페이지, 게시글 목록
-    @Get('/')
+    @Get('')
+    @UsePipes(new ValidationPipe({ transform: true }))
     //@Render('boardhome.njk')
-    async getAllBoard(@Res() res:Response){
-        const boards = await this.boardService.getBoardAll();
-        res.render('boardhome',  {boards:boards});
+    async getAllBoard(@Query() page: SearchBoardsDto, @Res() res:Response){
+      console.log(await this.boardService.getBoardAll(page));  
+      return await this.boardService.getBoardAll(page);
+        
+        //res.render(this.boardService.getBoardAll(page), boardHome);
     }
                                                             //게시판 검색
                                                            
@@ -73,7 +77,7 @@ export class BoardsController {
     //게시글 수정
     @Patch('/:id')
     async update(@Param('id') id: number, @Body() body) {
-      console.log(JSON.stringify(body.title));
+      console.log(body);
       //return this.boardService.UpdateBoard(id, updateBoardDto);
     }
 

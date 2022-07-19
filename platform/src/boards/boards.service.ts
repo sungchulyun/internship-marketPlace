@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
-/* eslint-disable prettier/prettier */
 import { BoardRepository } from './board.repository';
 import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SearchBoardsDto } from './dto/SearchBoardsDto';
+import { Page } from './page';
 
 @Injectable()
 export class BoardsService {
@@ -22,7 +24,7 @@ export class BoardsService {
     }
 
     //단일 게시글 가져오기
-    async getBoardById(id: number): Promise <Board>{
+    async getBoardById(id: number){
         const found = await this.boardRepository.findOne(id);
         if(!found){
             throw new NotFoundException('Cant find Board with id ${id}');
@@ -31,8 +33,15 @@ export class BoardsService {
     }
 
     //전체 게시글 가져오기
-    async getBoardAll(): Promise <Board[]>{
-        return this.boardRepository.find();
+    async getBoardAll(page: SearchBoardsDto){
+        const total = await this.boardRepository.count();
+        const goods = await this.boardRepository.find({
+          take: page.getLimit(),
+          skip: page.getOffset(),
+        });
+        return new Page(total, page.pageSize, goods);
+      
+        //return this.boardRepository.find();
     }
     
     //게시글 수정
@@ -65,5 +74,7 @@ export class BoardsService {
          this.boardRepository.delete(deleteBoard);
          return "삭제 완료";
     }
+
+    
 
 }
