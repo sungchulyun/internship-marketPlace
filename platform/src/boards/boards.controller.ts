@@ -20,9 +20,14 @@ export class BoardsController {
     @Get('')
     @UsePipes(new ValidationPipe({ transform: true }))
     //@Render('boardhome.njk')
-    async getAllBoard(@Query() page: SearchBoardsDto){ 
-     //res.render('boardHome', {boards : await this.boardService.getBoardAll(page)});
-    return this.boardService.getBoardAll(page);
+    async getAllBoard(@Query() page: SearchBoardsDto,
+    @Res() res:Response){ 
+    //console.log(await this.boardService.getBoardAll(page))
+        const boards = await (await this.boardService.getBoardAll(page)).boards
+        console.log(boards);
+        console.log(typeof(boards));
+        res.render('boardHome', {boards : boards});
+
         
     }
                                                             //게시판 검색
