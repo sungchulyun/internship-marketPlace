@@ -34,43 +34,44 @@ table {
 	</colgroup>
 	<tbody>
 		<tr>
-			<th class="active" ></th>
-			<td>
-				{{board.id}}
-			</td>
-		</tr>
-		<tr>
-			<th class="active" >제목</th>
+			<th class="active" height = 30>제목</th>
 			<td>
 				{{board.title}}
 			</td>
 		</tr>
 		<tr>
-			<th class="active" >내용</th>
+			<th class="active" height = 100>내용</th>
 			<td>
 				{{board.content}}
 			</td>
 		</tr>
 		<tr>
-			<th class="active" >코인</th>
+			<th class="active" height = 50>코인</th>
 			<td>
 				{{board.prize}}
 			</td>
 		</tr>
 		<tr>
-			<th class="active" >사진</th>
+			<th class="active" height = 300>사진</th>
 			<td>
-				  <img src="{{board.image}}" width="300" alt="My Image"/>
+				  <img src="{{board.image}}" width ="1000"alt="My Image"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
 </div>
-<div style="margin-left:10px;">
-<a href="/boards" class="btn btn-primary">글 목록</a>
 </div>
-<div style="margin-right:10px;">
-<a href="/boards/update/{{board.id}}" class="btn btn-primary">수정하기</a>
+<div class="search">
+     <input type="text" placeholder="검색어를 입력해주세요.">
+</div>
+<div class="button">
+     <button>검색</button>
+</div>
+
+<br>
+<div class="col" float:left">
+<button style="height:30px;width:80px" class="btn btn-primary" onclick="location.href='/boards'">글 목록</button>
+<button style="height:30px;width:80px" class="btn btn-dark" onclick="location.href='/boards/update/{{board.id}}'">수정하기</button>
 </div>
 </div>
 </div>

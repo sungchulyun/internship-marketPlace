@@ -10,6 +10,7 @@ import { render } from 'nunjucks';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
+import { number, x } from 'joi';
 
 @Controller('boards')
 export class BoardsController {
@@ -22,11 +23,10 @@ export class BoardsController {
     //@Render('boardhome.njk')
     async getAllBoard(@Query() page: SearchBoardsDto,
     @Res() res:Response){ 
-    //console.log(await this.boardService.getBoardAll(page))
-        const boards = await (await this.boardService.getBoardAll(page)).boards
-        console.log(boards);
-        console.log(typeof(boards));
-        res.render('boardHome', {boards : boards});
+        const pageNo = page.pageNo;
+        const totalPage = await (await this.boardService.getBoardAll(page)).totalPage;
+        const boards = (await this.boardService.getBoardAll(page)).boards
+        res.render('boardHome', {boards : boards, pageNo : pageNo, totalPage: totalPage});
 
         
     }

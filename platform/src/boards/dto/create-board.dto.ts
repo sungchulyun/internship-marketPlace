@@ -11,4 +11,7 @@ export class CreateBoardDto{
     prize: number;
 
     image: string;
+
+    createdDate: Date;
+
 }
