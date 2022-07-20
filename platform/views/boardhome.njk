@@ -25,7 +25,7 @@ table {
 		</tr>  
         {% for board in boards %}
 		<tr>
-			<td> <a href="/boards/detail/{{board.id}}">{{board.title}}</a></td>
+			<td> <a href="/boards/detail/{{board.id}}">{{Page.boards.Board.title}}</a></td>
 			<td>{{board.content}}</td>
 			<td>{{board.prize}}</td>
 			

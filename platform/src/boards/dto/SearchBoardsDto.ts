@@ -5,13 +5,7 @@ import { PageRequest } from "src/pageRequest";
 export class SearchBoardsDto extends PageRequest{
     @IsString()
     @IsOptional()
-    id : number;
+    
+    id: number
 
-    title:string;
-   
-    content:string;
-
-    prize: number;
-
-    image: string;
 }
