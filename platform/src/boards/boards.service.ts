@@ -7,6 +7,7 @@ import { Injectable, NotFoundException, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
 import { Page } from './page';
+import { Like } from 'typeorm';
 
 @Injectable()
 export class BoardsService {
@@ -77,4 +78,56 @@ export class BoardsService {
 
     
 
+    //게시물 검색
+    async searchBoards(page : SearchBoardsDto){
+
+        const {sortBy, category, title} = page;     //정렬방식, 카테고리, 제목에 포함된 내용 기반 검색
+        console.log(page);
+        
+        let total, sortObj, found;
+        if(!sortBy) {
+
+        }else{
+            switch(sortBy){
+                case 'LOWPRICE':
+                    sortObj = { prize : "ASC"};
+                    break;
+                case 'NEW':
+                    sortObj = { CreatedDate : "DESC"};
+                    break;
+            }
+        }
+        if(!category) {
+            total = await this.boardRepository.count();
+            found = await this.getPagination(page, category, title);
+        }else {
+            total = await this,this.boardRepository.count({category});
+            found = await this.getPaginationByCategory(page, category, sortObj, title);
+        }
+        return new Page(total, page.pageSize, found);
+    }
+    async getPaginationByCategory(page, category, title, sortObj){
+        const boards = await this.boardRepository.find({
+            where:  { 
+            category: category,    
+            title: title,
+            take: page.getLimit(),
+            skip: page.getOffset(),
+            order: sortObj,
+            }
+        });
+        return boards;
+    }
+
+    async getPagination(page, sortObj, title){
+        console.log(sortObj);
+        const boards = await this.boardRepository.find({
+            where: {title: Like(`%${title}%`)},
+            take : page.getLimit(),
+            skip : page.getOffset(),
+            order: sortObj,
+        });
+        return boards;
+    }
+    
 }

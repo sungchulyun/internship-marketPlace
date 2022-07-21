@@ -45,19 +45,15 @@ table {
 		<div class="container">
 			<div class="row">
 				<div class="col">
-     				<input type="text" placeholder="검색어를 입력해주세요.">
-				</div>
-				<div class="button" float:right>
-     				<button>검색</button>
 					<ul class="pagination">
 					{% set a = 1 | int %}
-						<li class="page-item"><a class="page-link" href="/boards/?pageNo={{pageNo-1}}&pageSize=10">Previous</a></li>
-						<li class="page-item"><a class="page-link" href="/boards?pageNo=1&pageSize=10">1</a></li>
-						<li class="page-item"><a class="page-link" href="/boards?pageNo=2&pageSize=10">2</a></li>
-						<li class="page-item"><a class="page-link" href="/boards?pageNo=3&pageSize=10">3</a></li>
-						<li class="page-item"><a class="page-link" href="/boards?pageNo=4&pageSize=10">4</a></li>
-						<li class="page-item"><a class="page-link" href="/boards?pageNo=5&pageSize=10">5</a></li>
-						<li class="page-item"><a class="page-link" href="/boards/?pageNo={{pageNo -1 + 2}}&pageSize=10">Next</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo={{pageNo-1}}&pageSize=10">Previous</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=1&pageSize=10">1</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=2&pageSize=10">2</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=3&pageSize=10">3</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=4&pageSize=10">4</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=5&pageSize=10">5</a></li>
+						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo={{pageNo -1 + 2}}&pageSize=10">Next</a></li>
 					</ul>
 				</div>
 			</div>

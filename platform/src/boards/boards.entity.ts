@@ -8,7 +8,8 @@ export class Board extends BaseEntity{
 
     @Column({nullable: true})
     title: string;
-
+    
+    
     @Column({nullable: true})
     content: string;
 
@@ -17,11 +18,14 @@ export class Board extends BaseEntity{
 
     @Column({nullable: true})
     image : string;
+    
 
     @CreateDateColumn(({ type: "timestamp" }))
     createdDate: Date;
  
     @UpdateDateColumn(({ type: "timestamp" }))
     updatedDate: Date;
-
+ 
+    @Column({nullable: true})
+    category : string;
 }

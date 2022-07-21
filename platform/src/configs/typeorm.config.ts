@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { Board } from "src/boards/boards.entity";
 import { User } from '../auth/user.entity';
@@ -11,5 +12,5 @@ export const typeORMConfig : TypeOrmModuleOptions = {
         database: 'nftweb-db',
         entities: [Board, User],
         synchronize: true,
-
+        logging: true,
 }

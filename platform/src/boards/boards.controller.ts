@@ -18,7 +18,7 @@ export class BoardsController {
     
     
     //게시판 홈 페이지, 게시글 목록
-    @Get('')
+    @Get('/lists')
     @UsePipes(new ValidationPipe({ transform: true }))
     //@Render('boardhome.njk')
     async getAllBoard(@Query() page: SearchBoardsDto,
@@ -30,7 +30,14 @@ export class BoardsController {
 
         
     }
-                                                            //게시판 검색
+    //게시판 검색
+    @Get('/search')
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async getSearchBoards(@Query() page: SearchBoardsDto){
+      return (await this.boardService.searchBoards(page)).boards;
+
+    }
+
                                                            
     //게시판 상세페이지
     @Get('detail/:id')
@@ -50,7 +57,7 @@ export class BoardsController {
     
     //게시판 글 작성 POST
     @Post('/writePro')
-    @Redirect('http://localhost:8000/boards', 302)
+    @Redirect('http://localhost:8000/boards/lists', 302)
     @UsePipes(ValidationPipe) 
     @UseInterceptors(
     FileInterceptor('image', {

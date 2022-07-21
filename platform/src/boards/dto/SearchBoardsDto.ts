@@ -8,4 +8,11 @@ export class SearchBoardsDto extends PageRequest{
     
     id: number
 
+    sortBy : string
+    
+    title : string
+
+    SortMethod: string
+
+    category : string
 }
