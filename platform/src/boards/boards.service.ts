@@ -102,20 +102,22 @@ export class BoardsService {
             found = await this.getPagination(page, category, title);
         }else {
             total = await this,this.boardRepository.count({category});
-            found = await this.getPaginationByCategory(page, category, sortObj, title);
+            found = await this.getPaginationByCategory(page, category, title, sortObj);
         }
         return new Page(total, page.pageSize, found);
     }
     async getPaginationByCategory(page, category, title, sortObj){
+        console.log(page, category, title, sortObj);
         const boards = await this.boardRepository.find({
             where:  { 
             category: category,    
-            title: title,
+            title: title
+            },
             take: page.getLimit(),
             skip: page.getOffset(),
             order: sortObj,
-            }
         });
+        console.log(boards);
         return boards;
     }
 
