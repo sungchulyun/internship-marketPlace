@@ -15,6 +15,7 @@ export class BoardsService {
         @InjectRepository(BoardRepository)
         private boardRepository: BoardRepository,
     ){}
+
     //게시글 작성
     createBoard(createBoardDto: CreateBoardDto): Promise<Board>{
         if(!createBoardDto){
@@ -99,14 +100,19 @@ export class BoardsService {
         }
         if(!category) {
             total = await this.boardRepository.count();
-            found = await this.getPagination(page, category, title);
-        }else {
+            found = await this.getPagination(page, sortObj, title);
+        }
+        else if(!title){
+            total = await this.boardRepository.count();
+            found = await this.getPagination2(page, sortObj, category);
+        }
+        else {
             total = await this,this.boardRepository.count({category});
-            found = await this.getPaginationByCategory(page, category, title, sortObj);
+            found = await this.getPaginationByCategoryAndTitle(page, category, title, sortObj);
         }
         return new Page(total, page.pageSize, found);
     }
-    async getPaginationByCategory(page, category, title, sortObj){
+    async getPaginationByCategoryAndTitle(page, category, title, sortObj){
         console.log(page, category, title, sortObj);
         const boards = await this.boardRepository.find({
             where:  { 
@@ -125,6 +131,17 @@ export class BoardsService {
         console.log(sortObj);
         const boards = await this.boardRepository.find({
             where: {title: Like(`%${title}%`)},
+            take : page.getLimit(),
+            skip : page.getOffset(),
+            order: sortObj,
+        });
+        return boards;
+    }
+
+    async getPagination2(page, sortObj, category){
+        console.log(sortObj);
+        const boards = await this.boardRepository.find({
+            where: {category: Like(`%${category}%`)},
             take : page.getLimit(),
             skip : page.getOffset(),
             order: sortObj,

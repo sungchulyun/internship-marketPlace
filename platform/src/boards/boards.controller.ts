@@ -30,12 +30,18 @@ export class BoardsController {
 
         
     }
+
     //게시판 검색
     @Get('/search')
     @UsePipes(new ValidationPipe({ transform: true }))
-    async getSearchBoards(@Query() page: SearchBoardsDto){
-      return (await this.boardService.searchBoards(page)).boards;
-
+    async getSearchBoards(@Query() page: SearchBoardsDto, @Res() res:Response){
+      const response = {
+        title : page.title,
+        category : page.category
+      }
+      console.log(response)
+      const searchBoards =  (await this.boardService.searchBoards(page)).boards;
+      res.render('boardHome', {boards : searchBoards});
     }
 
                                                            

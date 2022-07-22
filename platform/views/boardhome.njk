@@ -17,7 +17,7 @@ table {
 <body>
 	<h1>판매 게시판</h1>
     <br>
-	<table class ="table-light">
+	<table class ="table-light" width=500 height=500>
 		<tr>
 			<th scope="col" width = 200 height = 80>제목</th>
 			<th scope="col">내용</th>
@@ -36,17 +36,17 @@ table {
 	<br>
 	<div class = "container>
 		<div class="row">
-				<div class="col">
+				<div class="col" width:100px; height:100px;">
 					<button class ="btn btn-primary" style="float:right" onclick="location.href='/boards/write'">글 작성하기</button>
-					</div>
+				
+						 </div>
+   					 </div>
 				</div>
-			<div>
 		<br>
 		<div class="container">
-			<div class="row">
-				<div class="col">
-					<ul class="pagination">
-					{% set a = 1 | int %}
+			<div class="row" >
+				<div class="col" >
+					<ul class="pagination" style="margin: 0 auto; width:50%;">
 						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo={{pageNo-1}}&pageSize=10">Previous</a></li>
 						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=1&pageSize=10">1</a></li>
 						<li class="page-item"><a class="page-link" href="/boards/lists?pageNo=2&pageSize=10">2</a></li>
@@ -58,5 +58,12 @@ table {
 				</div>
 			</div>
 		</div>
+		<br>
+		<div style="text-align: center">
+			<form action="/boards/search" method="get">
+				<input type="text" name="title" placeholder="검색어를 입력해주세요." />
+				<input type="text" name="category" placeholder="검색어를 입력해주세요." />
+				<button type="submit">검색</button>
+					</div>
 </body>
 </html>
