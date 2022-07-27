@@ -29,7 +29,7 @@ export class AuthController {
         
     }
     
-
+    @UseGuards(AuthGuard('jwt'))
     @Post('/test')
     test(@Req() req){
         console.log('req', req);
