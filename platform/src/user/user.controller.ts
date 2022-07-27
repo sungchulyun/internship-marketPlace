@@ -35,16 +35,4 @@ export class UserController {
   
     }
       */
-    @Post('/joining')
-    @Render('')
-    create(@Body() user: User){
-        return this.userService.create(user);
-    }
-    
-
-    @Get('/join')
-    @Render('signin.hbs')
-    getUser() {
-        return {message:'Index Page' };
-    }
 }

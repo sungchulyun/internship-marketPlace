@@ -7,6 +7,7 @@ import * as bcrypt from 'bcryptjs';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
+    //비밀번호 암호화 후 회원가입
     async createUser(authcredentialsDto: AuthCredentialsDto): Promise<void>{
         const{email, password} = authcredentialsDto;
 

@@ -23,10 +23,8 @@ export class AuthService {
         return this.userRepository.createUser(authcredentialsDto);
     }
 
-    //비밀번호 해쉬 검사
-    async validateUser(authcredentialsDto: AuthCredentialsDto): Promise<{accessToken: string} | undefined>{
-        const email = authcredentialsDto.email;
-        const password = authcredentialsDto.password;
+    //비밀번호 해쉬 검사 이후 토큰 발급
+    async validateUser(email :string  , password: string ): Promise<{accessToken: string} | undefined>{
         const hash = await (await this.userRepository.findOne({email})).password;
         const validatePassword = await(bcrypt.compare(password, hash));
         if(!validatePassword){
@@ -38,20 +36,5 @@ export class AuthService {
             accessToken: this.jwtService.sign(payload),
         };
     }
-    async tokenValidateUser(payload: Payload): Promise<any | undefined> {
-        return await this.userRepository.findOne({
-            where: { email: payload.email }
-        });
-    }
-      
-    //토큰 발급
-    async login(user: User){
-        const payload = { email: user.email}
-        console.log(payload)
-        const token = this.jwtService.sign(payload);
-        return token;
-        
-        
-    }
-    
+   
 }

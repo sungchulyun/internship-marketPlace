@@ -1,3 +1,6 @@
+import { AuthModule } from './auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
+import { JwtStrategy } from 'src/auth/jwt.strategy';
 /* eslint-disable prettier/prettier */
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -7,7 +10,6 @@ import *as nunjucks from 'nunjucks';
 import * as path from 'path';
 import { join } from 'path';
 import methodOverride = require('method-override');
-import bodyParser = require('body-parser');
 
 
 async function bootstrap() {
@@ -47,6 +49,8 @@ async function bootstrap() {
     });
     app.set('view engine', 'njk');
     app.use(methodOverride('_method'));
+    console.log(process.env.JWT_ACCESS_TOKEN_SECRET)
+  
 
     await app.listen(8000);
   

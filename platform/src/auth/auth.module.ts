@@ -11,6 +11,8 @@ import { UserRepository } from './user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './jwt-auth-guards';
 
 
 @Module({
@@ -20,9 +22,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+        secret: configService.get('JWT_ACCESS_TOKEN_SECRET'),
         signOptions: {
-          expiresIn: `${configService.get('JWT_ACCESS_TOKEN_EXPIRTATION_TIME')}`,
+          expiresIn: `${configService.get('JWT_ACCESS_TOKEN_EXPIRTATION_TIME')}s`,
         },
       }),
     }),
@@ -31,8 +33,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       JwtModule,
   ],
       
-  exports: [TypeOrmModule, AuthService, JwtModule],
+  exports: [TypeOrmModule, AuthService, JwtModule, JwtStrategy, PassportModule],
   controllers: [AuthController],
-  providers: [AuthService, UserService, LocalStrategy, JwtStrategy, JwtService],
+  providers: [AuthService, UserService, LocalStrategy, JwtStrategy, /**{
+    provide: APP_GUARD,
+    useClass: JwtAuthGuard,
+  },**/],
 })
 export class AuthModule {}

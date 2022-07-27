@@ -6,11 +6,9 @@ import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
 import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { render } from 'nunjucks';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
-import { number, x } from 'joi';
 
 @Controller('boards')
 export class BoardsController {
