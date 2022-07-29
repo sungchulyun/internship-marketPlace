@@ -1,26 +1,33 @@
 /* eslint-disable prettier/prettier */
-import { UpdateBoardDto } from './dto/update-board.dto';
 import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
 
+
+/** */
 @Controller('boards')
 export class BoardsController {
     constructor(private boardService: BoardsService){}
+
+    @Get('/klaytn')
+    getKlaytn(@Res() res:Response){
+      res.render('klaytn')
+    }
     
-    
+
     //게시판 홈 페이지, 게시글 목록
+    
     @Get('/lists')
     @UsePipes(new ValidationPipe({ transform: true }))
-    //@Render('boardhome.njk')
     async getAllBoard(@Query() page: SearchBoardsDto,
-    @Res() res:Response){ 
+    @Res() res:Response, @Req() req:Request){ 
+        req.cookies['jwt'];
         const pageNo = page.pageNo;
         const totalPage = await (await this.boardService.getBoardAll(page)).totalPage;
         const boards = (await this.boardService.getBoardAll(page)).boards

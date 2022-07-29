@@ -10,6 +10,7 @@ import *as nunjucks from 'nunjucks';
 import * as path from 'path';
 import { join } from 'path';
 import methodOverride = require('method-override');
+import * as cookieParser from 'cookie-parser';
 
 
 async function bootstrap() {
@@ -49,8 +50,7 @@ async function bootstrap() {
     });
     app.set('view engine', 'njk');
     app.use(methodOverride('_method'));
-    console.log(process.env.JWT_ACCESS_TOKEN_SECRET)
-  
+    app.use(cookieParser());
 
     await app.listen(8000);
   

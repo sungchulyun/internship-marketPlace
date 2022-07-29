@@ -11,6 +11,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
+import { LocalStrategy } from './auth/local.strategy';
 
 @Module({
   imports: [
@@ -30,6 +31,6 @@ import { AuthModule } from './auth/auth.module';
     UserModule, BoardsModule, AuthModule, ConfigModule
   ],
   controllers: [],
-  providers: [],
+  providers: [LocalStrategy],
 })
 export class AppModule {}
