@@ -39,7 +39,7 @@ export class AuthController {
         const {user} = request;
         const email = authcredentialsDto.email;
         const password = authcredentialsDto.password;
-        const cookie = await this.authSerivce.getCookieWithJwtToken(email);      //아이디, 비밀번호 검증
+        const cookie = await this.authSerivce.validateUser(email, password);      //아이디, 비밀번호 검증
         res.setHeader('Set-Cookie', cookie);
         
         //res.cookie('jwt',jwt.accessToken, {

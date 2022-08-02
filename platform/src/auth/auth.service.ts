@@ -26,24 +26,16 @@ export class AuthService {
     }
 
     //비밀번호 해쉬 검사 이후 토큰 발급
-    async validateUser(email :string  , password: string ): Promise<{accessToken: string} | undefined>{
+    async validateUser(email :string  , password: string ){
         const hash = await (await this.userRepository.findOne({email})).password;
         const validatePassword = await(bcrypt.compare(password, hash));
         if(!validatePassword){
             throw new UnauthorizedException('login failed');
         }  
-        const payload: Payload = { email : email };
-
-        return {    //토큰 발급
-            accessToken: this.jwtService.sign(payload),
-        };
-    }
-
-    public getCookieWithJwtToken(email: string) {
         const payload: Payload = { email };
         const token = this.jwtService.sign(payload);
         return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_ACCESS_TOKEN_EXPIRTATION_TIME')}`;
-      }
+    }
 
     async getById(email: string) {
         const user = await this.userRepository.findOne({ email });
