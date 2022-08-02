@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "src/auth/user.entity";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Board extends BaseEntity{
@@ -14,7 +15,7 @@ export class Board extends BaseEntity{
     content: string;
 
     @Column({nullable: true})
-    prize: number;
+    price: number;
 
     @Column({nullable: true})
     image : string;
@@ -28,4 +29,7 @@ export class Board extends BaseEntity{
  
     @Column({nullable: true})
     category : string;
+
+    @ManyToOne(type => User, user => user.boards, {eager: false})
+    user: User;
 }

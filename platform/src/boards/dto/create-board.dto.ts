@@ -7,10 +7,12 @@ export class CreateBoardDto{
 
     content:string;
 
-    prize: number;
+    price: number;
 
     image: string;
 
     createdDate: Date;
+
+    category: string;
 
 }

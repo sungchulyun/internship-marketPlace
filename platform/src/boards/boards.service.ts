@@ -1,3 +1,4 @@
+import { User } from 'src/auth/user.entity';
 /* eslint-disable prettier/prettier */
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -17,11 +18,11 @@ export class BoardsService {
     ){}
 
     //게시글 작성
-    createBoard(createBoardDto: CreateBoardDto): Promise<Board>{
+    createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board>{
         if(!createBoardDto){
             throw new NotFoundException("You have a null value on each attributes");
         }
-        return this.boardRepository.save(createBoardDto);
+        return this.boardRepository.createBoard(createBoardDto, user);
 
     }
 

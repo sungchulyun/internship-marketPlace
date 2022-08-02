@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'typeorm';
+import { BaseEntity, OneToMany } from 'typeorm';
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { Board } from './../boards/boards.entity';
 @Entity()
 export class User extends BaseEntity{
     @PrimaryGeneratedColumn({
@@ -17,7 +17,10 @@ export class User extends BaseEntity{
     password: string;
 
     @Column({ nullable: true })
-  @Exclude()
-  currentHashedRefreshToken?: string;
+    @Exclude()
+    currentHashedRefreshToken?: string;
+
+    @OneToMany(type => Board, board => board.user, {eager : true})
+    boards: Board[]
     
 }

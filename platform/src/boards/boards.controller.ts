@@ -1,3 +1,4 @@
+import { User } from 'src/auth/user.entity';
 import { JwtAuthGuard } from './../auth/jwt-auth-guards';
 /* eslint-disable prettier/prettier */
 import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
@@ -9,6 +10,7 @@ import { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 
 /** */
@@ -81,14 +83,14 @@ export class BoardsController {
       fileFilter: imageFileFilter,
     }),
   ) //한개의 사진 post
-    createBoard(@Body() createBoardDto: CreateBoardDto, @UploadedFile() file): Promise<Board>{
+    createBoard(@Body() createBoardDto: CreateBoardDto,@GetUser() user:User ,@UploadedFile() file): Promise<Board>{
     const response = {
         originalname: file.originalname,
         filename: file.filename,
         path: file.path,
       };                  //const file = file.filename으로 받아서 넘기면 오류뜸, 무슨 이슈인지 모르겠음
       createBoardDto.image= 'http://localhost:8000/'+ response.filename;
-      return this.boardService.createBoard(createBoardDto);
+      return this.boardService.createBoard(createBoardDto, user);
     }
  
     //글 수정 페이지 랜더링
