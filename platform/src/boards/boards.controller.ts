@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../auth/jwt-auth-guards';
 /* eslint-disable prettier/prettier */
 import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -22,7 +23,6 @@ export class BoardsController {
     
 
     //게시판 홈 페이지, 게시글 목록
-    
     @Get('/lists')
     @UsePipes(new ValidationPipe({ transform: true }))
     async getAllBoard(@Query() page: SearchBoardsDto,
@@ -60,6 +60,7 @@ export class BoardsController {
                                                             
 
     //게시판 글 작성 페이지 렌더링
+    @UseGuards(JwtAuthGuard)
     @Get('/write')
     //@Render('boardwrite.njk')
     writeBoard(@Res() res:Response){
@@ -67,6 +68,7 @@ export class BoardsController {
     }
     
     //게시판 글 작성 POST
+    @UseGuards(JwtAuthGuard)
     @Post('/writePro')
     @Redirect('http://localhost:8000/boards/lists', 302)
     @UsePipes(ValidationPipe) 
@@ -97,6 +99,7 @@ export class BoardsController {
     }
 
     //게시글 수정
+    @UseGuards(JwtAuthGuard)
     @Patch('/:id')
     async update(@Param('id') id: number, @Body() body) {
       console.log(body);
@@ -104,9 +107,18 @@ export class BoardsController {
     }
 
     //게시글 삭제
+    @UseGuards(JwtAuthGuard)
     @Delete('/delete/:id')
     remove(@Param('id') id: number) {
       return this.boardService.DeleteBoard(id);
+    }
+
+    //NFT 구매하기
+    @UseGuards(JwtAuthGuard)
+    @Get('/detail/buy/:id')
+    async nftBuy(@Param ('id') id:number, @Res() res:Response){
+      const board = await this.boardService.getBoardById(id);
+      res.render('boardBuy', {board: board});
     }
  
  

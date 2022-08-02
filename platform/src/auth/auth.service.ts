@@ -55,5 +55,9 @@ export class AuthService {
           HttpStatus.NOT_FOUND,
         );
       }
+
+      public getCookieForLogOut() {
+        return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+      }
    
 }

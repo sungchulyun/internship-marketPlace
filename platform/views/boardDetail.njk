@@ -7,9 +7,10 @@ table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
     	text-align: center;
+		margin: 0 auto;
 }
 table {
-	width: 100%;
+	width: 80%;
 }
 </style>
 </head>
@@ -19,7 +20,7 @@ table {
 <h1 class="page-header">게시글 상세 페이지</h1>
 </div>
 </div>
-
+<br>
 <div class="panel" style="margin-left:1px;">
 <div id="contAreaBox">
 <div class="panel">
@@ -70,14 +71,17 @@ table {
 </div>
 </div>
 
-<br>
-<div class="col" float:left">
-<button style="height:30px;width:80px" class="btn btn-primary" onclick="location.href='/boards/lists'">글 목록</button>
-<button style="height:30px;width:80px" class="btn btn-dark" onclick="location.href='/boards/update/{{board.id}}'">수정하기</button>
-</div>
-</div>
-</div>
-</div>
+			<br>
+			<div class="col" style="float:right">
+			<button style="height:30px;width:80px" class="btn btn-primary" onclick="location.href='/boards/lists'">글 목록</button>
+			<button style="height:30px;width:80px" class="btn btn-dark" onclick="location.href='/boards/update/{{board.id}}'">수정하기</button>
+			<button style="height:30px;width:80px" class="btn btn-dark" onclick="location.href='/boards/detail/buy/{{board.id}}'">구매하기</button>
+			</div>
+			<div class="col" style="float:right">
+			
+				</div>
+			</div>
+		</div>
 </div>
 
 </body>
