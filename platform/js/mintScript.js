@@ -1,12 +1,4 @@
-
-<html lang="ko">
-    <head>
-    <meta charset="UTF-8">
-    <title>NFT 듀토리얼</title>
-    </head>
-    <body>
-      <script>
-    /* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
 let account;
 let mintIndexForSale = 0;
 let maxSaleAmount = 0;
@@ -116,41 +108,3 @@ async function publicMint() {
         alert("민팅에 실패하였습니다.");
     }
 }
-
-      </script>
-      <div>
-          <div>
-            <div>
-              <h1 style="text-align : center">NFT 판매 플랫폼 이용 가이드입니다.</h1>
-              <br>
-
-            </div>
-        <p><h3>Kaikas 설치</h2></p>
-          <p>
-              Kaikas 지갑을 사용하기 위해서는 확장 프로그램을 필수로 설치하셔야합니다!
-          <br>
-              <a href="https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi">설치페이지로 이동하기</a>
-          </p>
-        <hr/>
-          <div>
-          <p>  
-            <h3>MY WALLET 연결하기</h3>
-            <p>
-              
-            <button onclick="connect()">카이카스 지갑연결</button></p> 
-            <p style="font-weight: bolder;">버튼을 클릭하시면 확장 프로그램이 실행되고 내 지갑 정보를 가져옵니다.</p>   </div> 
-              </div>
-          
-            <p id="myWallet">지갑주소: 연결되지 않음</p>
-            <p id="myKlay">잔액: 연결되지 않음</p>
-              </div>
-           
-            <hr/>
-
-          </p>
-          <a href="https://scope.klaytn.com/" style="font-size: 10;">클래이튼 홈페이지</a><br>
-      </div>
-    </div>
-  </body>
-    </html>
-    

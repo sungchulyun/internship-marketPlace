@@ -22,6 +22,11 @@ export class BoardsController {
     getKlaytn(@Res() res:Response){
       res.render('klaytn')
     }
+
+    @Get('/sib')
+    gettest(@Res() res:Response){
+      res.render('sib')
+    }
     
 
     //게시판 홈 페이지, 게시글 목록

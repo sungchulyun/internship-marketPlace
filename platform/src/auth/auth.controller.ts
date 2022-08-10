@@ -21,8 +21,9 @@ export class AuthController {
     //회원가입
 
     @Post('joinPro')
-    @Render('login')
+    @Render('join')
     signUp(@Body() authcredentialsDto: AuthCredentialsDto): Promise<void>{
+    
         return this.authSerivce.signUp(authcredentialsDto);
     }
 
