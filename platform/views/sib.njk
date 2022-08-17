@@ -5,6 +5,12 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+hello
+</body>
+
 	{% block js %}
 	<script>
 	class ValueTransfer extends Component {
@@ -64,59 +70,20 @@
   
       return (
         <div className="ValueTransfer">
-          <Input
-            name="from"
-            label="From"
-            value={from}
-            onChange={this.handleChange}
-            placeholder="From Address"
-          />
-          <Input
-            name="to"
-            label="To"
-            value={to}
-            onChange={this.handleChange}
-            placeholder="To Address"
-          />
-          <Input
-            name="value"
-            label="Value"
-            value={value}
-            onChange={this.handleChange}
-            placeholder="Value (KLAY)"
-          />
-          <Input
-            name="gas"
-            label="Gas"
-            value={gas}
-            onChange={this.handleChange}
-            placeholder="Gas (Peb)"
-          />
-          <Button
-            title="Sign Transaction"
-            onClick={this.signTransaction}
-          />
-          <TxResult
-            txHash={txHash}
-            receipt={receipt}
-            error={error}
-          />
+          <Input name="from" label="From" value={from} onChange={this.handleChange} placeholder="From Address" />
+          <Input name="to"  label="To" value={to} onChange={this.handleChange} placeholder="To Address"/>
+          <Input name="value" label="Value" value={value} onChange={this.handleChange} placeholder="Value (KLAY)" />
+          <Input name="gas" label="Gas" value={gas} onChange={this.handleChange} placeholder="Gas (Peb)"/>
+          <Button title="Sign Transaction"onClick={this.signTransaction}/>
+          <TxResult txHash={txHash} receipt={receipt} error={error}/>
         </div>
       )
     }
   }
-	</script>
-	<script src="config.js"></script>
-	<script src="test.js"></script>
-	<script src="mintScript.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.0.2/bignumber.js" 
-	integrity="sha512-XQDG6H87RgMf+aNFwDPCUcFwUf3t9liyqN/2BkJ8KGixupbjPwQHNhypNA972mLIkg4KPo4lkGmqAf3yfDz8hw==" 
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="config.js">
+	<script src="test.js">
+	<script src="mintScript.js">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/8.0.2/bignumber.js" integrity="sha512-XQDG6H87RgMf+aNFwDPCUcFwUf3t9liyqN/2BkJ8KGixupbjPwQHNhypNA972mLIkg4KPo4lkGmqAf3yfDz8hw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  </script>
 	{% endblock %}
-	
-</head>
-
-
-</body>
-
 </html>

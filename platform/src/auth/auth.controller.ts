@@ -9,6 +9,7 @@ import { JwtAuthGuard } from './jwt-auth-guards';
 
 @Controller('auth')
 export class AuthController {
+
     constructor(private authSerivce: AuthService){}
     
  
@@ -38,34 +39,30 @@ export class AuthController {
     @Post('loginPro')
     @Render('boardHome')
     async login(@Body() authcredentialsDto: AuthCredentialsDto, @Res() res: Response): Promise<any>{
-        const {user} = request;
+
+
         const email = authcredentialsDto.email;
         const password = authcredentialsDto.password;
         const cookie = await this.authSerivce.validateUser(email, password);      //아이디, 비밀번호 검증
         res.setHeader('Set-Cookie', cookie);
-        
-        //res.cookie('jwt',jwt.accessToken, {
-        //    httpOnly:true,
-        //    maxAge: 24 * 60 * 60 * 1000 //1day
-       // });
-        console.log(res.cookie)
     }
 
     @UseGuards(JwtAuthGuard)
     @Get()
     authenticate(@Req() request: Request) {
+
       const user = request.user;
-      console.log(user);
       return user;
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('logOut')
-    async logOut(@Req() req: Request, @Res() response: Response) {
-      response.setHeader(
+    async logOut(@Req() req: Request, @Res() res: Response) {
+
+      res.setHeader(
         'Set-Cookie',
         this.authSerivce.getCookieForLogOut(),
       );
-      return response.sendStatus(200);
+      return res.sendStatus(200);
     }
  }

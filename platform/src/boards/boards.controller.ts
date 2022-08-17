@@ -35,7 +35,7 @@ export class BoardsController {
     async getAllBoard(@Query() page: SearchBoardsDto,
     @Res() res:Response, @Req() req:Request){ 
         req.cookies['jwt'];
-        const pageNo = page.pageNo;
+        const pageNo = 1;
         const totalPage = await (await this.boardService.getBoardAll(page)).totalPage;
         const boards = (await this.boardService.getBoardAll(page)).boards
         res.render('boardHome', {boards : boards, pageNo : pageNo, totalPage: totalPage});
