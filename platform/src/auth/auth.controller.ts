@@ -28,11 +28,6 @@ export class AuthController {
         return this.authSerivce.signUp(authcredentialsDto);
     }
 
-    //로그인 페이지 랜더링
-     @Get('/login')
-    userLogin(@Res() res:Response){
-    res.render('login');
-    }
       
     //로그인 -> 토큰 발급 -> 쿠키
     @UseGuards(LocalAuthGurad)

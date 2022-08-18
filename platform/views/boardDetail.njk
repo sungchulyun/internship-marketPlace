@@ -89,6 +89,8 @@ img {
   outline: none;
   overflow: hidden;
   position: relative;
+  bottom: 100px;
+  left: 100px;
   color: #fff;
   font-weight: 700;
   font-size: 7px;
@@ -96,12 +98,13 @@ img {
   padding: 17px 60px;
   margin: 0 auto;
   box-shadow: 0 5px 15px rgba(0,0,0,0.20);
-  float:right;
+  
 }
 
 .btn span {
   position: relative; 
   z-index: 1;
+  float: right;
 }
 
 .btn:after {
@@ -187,18 +190,18 @@ img {
 							</tr>
 						</tbody>
 			</table>
-			<div class="button_container">
-	
-			<button class="btn" onclick="location.href='/boards/lists'"><span>글 목록</span></button>
-			<button class="btn" onclick="location.href='/boards/update/{{board.id}}'"><span>수정하기</span></button>
-			<button class="btn" onclick="location.href='/boards/detail/buy/{{board.id}}'"><span>구매하기</span></button>
-			</div>
+		
 		</div>
 </div>
 			<br>
 		
 		</div>
 </div>
-
+	<div class="button_container">
+	
+			<button class="btn" onclick="location.href='/boards/lists'"><span>글 목록</span></button>
+			<button class="btn" onclick="location.href='/boards/update/{{board.id}}'"><span>수정하기</span></button>
+			<button class="btn" onclick="location.href='/boards/detail/buy/{{board.id}}'"><span>구매하기</span></button>
+			</div>
 </body>
 </html>

@@ -6,7 +6,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
 import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe, UseGuards } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
@@ -39,8 +39,6 @@ export class BoardsController {
         const totalPage = await (await this.boardService.getBoardAll(page)).totalPage;
         const boards = (await this.boardService.getBoardAll(page)).boards
         res.render('boardHome', {boards : boards, pageNo : pageNo, totalPage: totalPage});
-
-        
     }
 
     //게시판 검색
@@ -73,6 +71,7 @@ export class BoardsController {
     writeBoard(@Res() res:Response){
         res.render('boardWrite');
     }
+
     
     //게시판 글 작성 POST
     @UseGuards(JwtAuthGuard)
@@ -97,6 +96,19 @@ export class BoardsController {
       createBoardDto.image= 'http://localhost:8000/'+ response.filename;
       return this.boardService.createBoard(createBoardDto, user);
     }
+
+
+    @Post('')
+    async create(@Req() request, @Res() response){
+      try{
+        await this.boardService.fileupload(request, response);
+      }catch(error){
+        return response
+        .status(500)
+        .json('Failed to upload image file: ${error.message}');
+      }
+    }
+
  
     //글 수정 페이지 랜더링
     @Get('update/:id')
@@ -104,6 +116,7 @@ export class BoardsController {
       const board = await this.boardService.getBoardById(id);
       res.render('boardUpdate', {board: board})
     }
+
 
     //게시글 수정
     @UseGuards(JwtAuthGuard)
@@ -113,12 +126,14 @@ export class BoardsController {
       //return this.boardService.UpdateBoard(id, updateBoardDto);
     }
 
+
     //게시글 삭제
     @UseGuards(JwtAuthGuard)
     @Delete('/delete/:id')
     remove(@Param('id') id: number) {
       return this.boardService.DeleteBoard(id);
     }
+
 
     //NFT 구매하기
     @UseGuards(JwtAuthGuard)
