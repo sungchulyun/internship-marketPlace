@@ -11,8 +11,17 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
 import { GetUser } from 'src/auth/get-user.decorator';
+import * as multer from 'multer';
+import * as AWS from 'aws-sdk';
+import * as multerS3 from 'multer-s3';
 
-
+const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
+const s3 = new AWS.S3();
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2'
+});
 /** */
 @Controller('boards')
 export class BoardsController {
@@ -72,41 +81,28 @@ export class BoardsController {
         res.render('boardWrite');
     }
 
-    
-    //게시판 글 작성 POST
+
     @UseGuards(JwtAuthGuard)
     @Post('/writePro')
     @Redirect('http://localhost:8000/boards/lists', 302)
-    @UsePipes(ValidationPipe) 
+    @UsePipes(ValidationPipe)
     @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './files',
-        filename: editFileName,
+      FileInterceptor('image', {
+        storage: multerS3({
+          s3: s3,
+          bucket: AWS_S3_BUCKET_NAME,
+          acl: 'public-read',
+          key: function(request, file, cb) {
+            cb(null, `${Date.now().toString()} - ${file.originalname}`);
+          },
+        }),
+        fileFilter: imageFileFilter,
       }),
-      fileFilter: imageFileFilter,
-    }),
-  ) //한개의 사진 post
-    createBoard(@Body() createBoardDto: CreateBoardDto,@GetUser() user:User ,@UploadedFile() file): Promise<Board>{
-    const response = {
-        originalname: file.originalname,
-        filename: file.filename,
-        path: file.path,
-      };                  //const file = file.filename으로 받아서 넘기면 오류뜸, 무슨 이슈인지 모르겠음
-      createBoardDto.image= 'http://localhost:8000/'+ response.filename;
+    ) 
+    async  createBoard(@Body() createBoardDto: CreateBoardDto,@GetUser() user:User ,@UploadedFile() file): Promise<any>{
+      console.log(file);
+      createBoardDto.image= file.location;
       return this.boardService.createBoard(createBoardDto, user);
-    }
-
-
-    @Post('')
-    async create(@Req() request, @Res() response){
-      try{
-        await this.boardService.fileupload(request, response);
-      }catch(error){
-        return response
-        .status(500)
-        .json('Failed to upload image file: ${error.message}');
-      }
     }
 
  
