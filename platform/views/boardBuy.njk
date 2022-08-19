@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NFT 구매페이지입니다.</title>
 	{% block js %}
 	<script>
 	let account;
@@ -144,6 +145,9 @@
 			check_status();
 		});
 	</script>
+	<form action="/boards/detailPro/{{board.id}}" method="post">
+	 <button type="submit">전송 완료</button>
+	</form>
 </body>
 
 </html>

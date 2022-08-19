@@ -14,6 +14,7 @@ import { GetUser } from 'src/auth/get-user.decorator';
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
+import { number } from 'joi';
 
 const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const s3 = new AWS.S3();
@@ -100,7 +101,7 @@ export class BoardsController {
       }),
     ) 
     async  createBoard(@Body() createBoardDto: CreateBoardDto,@GetUser() user:User ,@UploadedFile() file): Promise<any>{
-      console.log(file);
+      console.log(createBoardDto);
       createBoardDto.image= file.location;
       return this.boardService.createBoard(createBoardDto, user);
     }
@@ -124,10 +125,10 @@ export class BoardsController {
 
 
     //게시글 삭제
-    @UseGuards(JwtAuthGuard)
+   
     @Delete('/delete/:id')
-    remove(@Param('id') id: number) {
-      return this.boardService.DeleteBoard(id);
+    async remove(@Param('id') id: number) {
+      return await this.boardService.DeleteBoard(id);
     }
 
 
@@ -137,6 +138,12 @@ export class BoardsController {
     async nftBuy(@Param ('id') id:number, @Res() res:Response){
       const board = await this.boardService.getBoardById(id);
       res.render('boardBuy', {board: board});
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/detailPro/:id')
+    async getFile(@Param('id')id:number){
+      return await (await this.boardService.getBoardById(id)).image;
     }
  
  

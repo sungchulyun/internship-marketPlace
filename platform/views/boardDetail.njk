@@ -62,13 +62,31 @@ img {
 
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
 
+        #test_btn1{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-right:-4px;
+        }
+        #test_btn2{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;    
+            margin-left:-3px;
+        }
+        #btn_group button{
+            border: 1px solid skyblue;
+            background-color: rgba(0,0,0,0);
+            color: skyblue;
+            padding: 5px;
+        }
+        #btn_group button:hover{
+            color:white;
+            background-color: skyblue;
+        }
 
 
-.button_container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 30%;
+
+a{
+  color:#00ff95;
 }
 
 .description, .link {
@@ -80,51 +98,6 @@ img {
   font-size: 35px;
 }
 
-.btn {
-  border: none;
-  display: block;
-  text-align: center;
-  cursor: pointer;
-  text-transform: uppercase;
-  outline: none;
-  overflow: hidden;
-  position: relative;
-  bottom: 100px;
-  left: 100px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 7px;
-  background-color: #222;
-  padding: 17px 60px;
-  margin: 0 auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
-  
-}
-
-.btn span {
-  position: relative; 
-  z-index: 1;
-  float: right;
-}
-
-.btn:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 490%;
-  width: 140%;
-  background: #78c7d2;
-  -webkit-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
-  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
-  transform: translateX(-98%) translateY(-25%) rotate(45deg);
-}
-
-.btn:hover:after {
-  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
-  transform: translateX(-9%) translateY(-25%) rotate(45deg);
-}
 
 .link {
   font-size: 20px;
@@ -188,6 +161,12 @@ img {
 									<img src="{{board.image}}"  alt="My Image"/>
 								</td>
 							</tr>
+              	<tr>
+								<th class="active" height = 50>판매자 주소</th>
+								<td>
+									{{board.address}}
+								</td>
+							</tr>
 						</tbody>
 			</table>
 		
@@ -197,11 +176,11 @@ img {
 		
 		</div>
 </div>
-	<div class="button_container">
+	<div class="btn_group-2">
 	
-			<button class="btn" onclick="location.href='/boards/lists'"><span>글 목록</span></button>
-			<button class="btn" onclick="location.href='/boards/update/{{board.id}}'"><span>수정하기</span></button>
-			<button class="btn" onclick="location.href='/boards/detail/buy/{{board.id}}'"><span>구매하기</span></button>
+		  <button id="test_btn1" onclick="location.href='/boards/lists'">글 목록</button>
+			<button id="test_btn2" onclick="location.href='/boards/update/{{board.id}}'">수정하기</button>
+			<button  onclick="location.href='/boards/detail/buy/{{board.id}}'">구매하기</button>
 			</div>
 </body>
 </html>

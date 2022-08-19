@@ -19,7 +19,9 @@ export class Board extends BaseEntity{
 
     @Column({nullable: true})
     image : string;
-    
+
+    @Column({nullable: true})
+    address : string;
 
     @CreateDateColumn(({ type: "timestamp" }))
     createdDate: Date;

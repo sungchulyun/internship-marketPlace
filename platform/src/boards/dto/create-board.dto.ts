@@ -11,6 +11,8 @@ export class CreateBoardDto{
 
     image: string;
 
+    address: string;
+    
     createdDate: Date;
 
     category: string;

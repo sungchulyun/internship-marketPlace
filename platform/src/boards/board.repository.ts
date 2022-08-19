@@ -8,7 +8,7 @@ import { EntityRepository, Repository } from "typeorm";
 export class BoardRepository extends Repository<Board> {
 
     async createBoard(createBoardDto:CreateBoardDto, user:User):Promise<Board>{
-        const {title, content, category, image, price} = createBoardDto;
+        const {title, content, category, image, price, address} = createBoardDto;
 
         const board = this.create({
             title,
@@ -16,8 +16,8 @@ export class BoardRepository extends Repository<Board> {
             category,
             image,
             price,
-            user
-
+            user,
+            address,
         })
 
         await this.save(board);
