@@ -3,9 +3,10 @@ import { LocalAuthGurad } from './local-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthService } from './auth.service';
-import { Body, Controller, Post, UseGuards,  Get, Res, Req, Redirect, Render } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get, Res, Req, Redirect, Render, HttpException, HttpStatus } from '@nestjs/common';
 import { Response ,Request, request } from 'express';
 import { JwtAuthGuard } from './jwt-auth-guards';
+import { UnauthorizedException } from 'src/unauthorized.exception';
 
 @Controller('auth')
 export class AuthController {
@@ -59,5 +60,10 @@ export class AuthController {
         this.authSerivce.getCookieForLogOut(),
       );
       return res.sendStatus(200);
+    }
+
+    @Get('test')
+    async test(){
+      throw new UnauthorizedException();
     }
  }

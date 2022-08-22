@@ -28,17 +28,6 @@ AWS.config.update({
 export class BoardsController {
     constructor(private boardService: BoardsService){}
 
-    @Get('/klaytn')
-    getKlaytn(@Res() res:Response){
-      res.render('klaytn')
-    }
-
-    @Get('/sib')
-    gettest(@Res() res:Response){
-      res.render('sib')
-    }
-    
-
     //게시판 홈 페이지, 게시글 목록
     @Get('/lists')
     @UsePipes(new ValidationPipe({ transform: true }))

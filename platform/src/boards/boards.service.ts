@@ -4,7 +4,7 @@ import { UpdateBoardDto } from './dto/update-board.dto';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardRepository } from './board.repository';
-import { Injectable, NotFoundException, Param, Req, Res } from '@nestjs/common';
+import { Injectable, NotFoundException, Req, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SearchBoardsDto } from './dto/SearchBoardsDto';
 import { Page } from './page';
