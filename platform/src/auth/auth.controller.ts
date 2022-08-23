@@ -3,11 +3,13 @@ import { LocalAuthGurad } from './local-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
 import { AuthService } from './auth.service';
-import { Body, Controller, Post, UseGuards, Get, Res, Req, Redirect, Render, HttpException, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Get, Res, Req, Redirect, Render, HttpException, HttpStatus, UseFilters } from '@nestjs/common';
 import { Response ,Request, request } from 'express';
 import { JwtAuthGuard } from './jwt-auth-guards';
 import { UnauthorizedException } from 'src/unauthorized.exception';
+import { HttpExceptionFilter } from 'src/HttpExceptionFilter';
 
+@UseFilters(HttpExceptionFilter)
 @Controller('auth')
 export class AuthController {
 
@@ -18,6 +20,13 @@ export class AuthController {
     @Get('/join')
     userJoin(@Req() req:Request, @Res() res:Response){
         res.render('join')
+    }
+
+    @Get('/login')
+    userLogin(@Req() req:Request, @Res() res:Response){
+        const flag = req.query.flag;
+        console.log(flag);
+        res.render('join', {flag : flag});
     }
 
     //회원가입

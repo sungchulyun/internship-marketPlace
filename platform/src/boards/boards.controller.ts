@@ -5,7 +5,7 @@ import { editFileName, imageFileFilter } from './../utils/file-uploading.utils';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { Board } from './boards.entity';
 import { BoardsService } from './boards.service';
-import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Bind, Body, Controller, Get, Param, Post, Render, Req, Res, UploadedFile, UseInterceptors, UsePipes, ValidationPipe, Patch, Delete, Redirect, Query, DefaultValuePipe, ParseIntPipe, UseGuards, UseFilters } from '@nestjs/common';
 import { Request, response, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -15,6 +15,7 @@ import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import { number } from 'joi';
+import { HttpExceptionFilter } from 'src/HttpExceptionFilter';
 
 const AWS_S3_BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
 const s3 = new AWS.S3();
@@ -23,7 +24,8 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: 'ap-northeast-2'
 });
-/** */
+
+@UseFilters(HttpExceptionFilter)
 @Controller('boards')
 export class BoardsController {
     constructor(private boardService: BoardsService){}

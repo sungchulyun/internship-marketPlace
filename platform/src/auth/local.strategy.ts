@@ -11,15 +11,15 @@ export class LocalStrategy extends PassportStrategy(Strategy){
     constructor(private authService: AuthService){
         super({
             usernameField: 'email',
-            password: 'password',
+            passwordField: 'password',
         });
     }
 
     
     
-    async validate(email: string, password: string): Promise<any>{
+    async validate(email: string): Promise<any>{
         console.log("localstrategy strategy validation")
-        const user = await this.authService.validateUser(email, password);
+        const user = await this.authService.getById(email);
         if(!user){
             throw new UnauthorizedException({message : '이메일과 비밀번호를 확인해주세요.'});
         }

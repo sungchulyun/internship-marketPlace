@@ -30,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
               ]),
             secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
             usernameField: 'email',
-            password: 'password',
+            passwordField: 'password',
           });
         }
     

@@ -29,6 +29,7 @@ export class AuthService {
     async validateUser(email :string  , password: string ){
         const hash = await (await this.userRepository.findOne({email})).password;
         const validatePassword = await(bcrypt.compare(password, hash));
+        console.log(validatePassword);
         if(!validatePassword){
             throw new UnauthorizedException('login failed');
         }  
